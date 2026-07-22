@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Bookmarks - Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            background-color: rgba(248, 249, 255, 0.8);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#d3e4fe",
+                      "background": "#f8f9ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-secondary-fixed": "#111c2d",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed": "#001a42",
+                      "tertiary-fixed-dim": "#c3c7cb",
+                      "secondary-container": "#d5e0f8",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "surface-container": "#e5eeff",
+                      "on-primary-fixed-variant": "#004395",
+                      "on-error": "#ffffff",
+                      "on-surface": "#0b1c30",
+                      "tertiary": "#585d60",
+                      "outline": "#727785",
+                      "outline-variant": "#c2c6d6",
+                      "primary": "#0058be",
+                      "on-background": "#0b1c30",
+                      "inverse-primary": "#adc6ff",
+                      "on-tertiary-container": "#fbfcff",
+                      "tertiary-container": "#707579",
+                      "on-secondary-fixed-variant": "#3c475a",
+                      "surface-tint": "#005ac2",
+                      "secondary": "#545f73",
+                      "on-surface-variant": "#424754",
+                      "secondary-fixed-dim": "#bcc7de",
+                      "primary-container": "#2170e4",
+                      "on-secondary-container": "#586377",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#d3e4fe",
+                      "error": "#ba1a1a",
+                      "on-secondary": "#ffffff",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "surface-dim": "#cbdbf5",
+                      "primary-fixed-dim": "#adc6ff",
+                      "tertiary-fixed": "#dfe3e7",
+                      "on-tertiary-fixed-variant": "#43474b",
+                      "secondary-fixed": "#d8e3fb",
+                      "primary-fixed": "#d8e2ff",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-fixed": "#171c1f",
+                      "on-primary-container": "#fefcff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "base": "8px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top AppBar (from JSON) -->
+<header class="w-full top-0 sticky z-40 flex items-center justify-between px-margin-mobile h-16 bg-surface dark:bg-background glass-header">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="bookmarks">bookmarks</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Bookmarks</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline" data-icon="search">search</span>
+</button>
+</header>
+<main class="px-margin-mobile pb-32">
+<!-- Search & Filters -->
+<section class="mt-4 mb-lg">
+<div class="relative flex items-center mb-md">
+<span class="material-symbols-outlined absolute left-4 text-outline" data-icon="search">search</span>
+<input class="w-full h-[48px] pl-12 pr-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary text-body-lg font-body-lg outline-none transition-all" placeholder="Search saved links..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+<button class="h-8 px-4 rounded-full bg-primary text-on-primary font-label-md text-label-md whitespace-nowrap shadow-sm">All</button>
+<button class="h-8 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:opacity-80 transition-all">Work</button>
+<button class="h-8 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:opacity-80 transition-all">Personal</button>
+<button class="h-8 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:opacity-80 transition-all">Tutorials</button>
+<button class="h-8 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:opacity-80 transition-all">Design</button>
+</div>
+</section>
+<!-- Bookmark List -->
+<div class="space-y-md">
+<!-- Bookmark Card 1 -->
+<div class="group bg-surface-container-lowest rounded-lg p-md border border-outline-variant hover:shadow-md transition-all duration-200 active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="A clean and minimalist vector logo of a colorful geometric shape, set against a pristine white background. The style is modern and tech-focused, utilizing a palette of vibrant blues and soft greys. The lighting is bright and even, conveying a sense of organized efficiency and digital clarity suitable for a professional design resource favicon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7PAcsi_askmso26fiQpi6dNHo81zZx5rnfSTTVtbYl9RjNG-3cdo5eX8Q5ejQk3SyeWvSh4YqGp_y_AhRPslOf8JTmrYOJyjqEMerjmzovrQnLbw7JV8vsd4FPIZ5JeBnsI1OnQnh-MInLbo88D9TOzCetHUiJGjX4uPU2sHRmaT2wM1brslldpQj3rsckgb9h2jGkkUj6MKZV7VughZy2coeq0gqd-weljwUQrOQcxH1EaIG9VNA3DA4hw2Ajd7OIEwwaBoqr5R_"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight line-clamp-1">Google Design System</h3>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<p class="text-body-sm font-body-sm text-outline truncate mb-xs">m3.material.io/foundations</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Design</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Guidelines</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bookmark Card 2 -->
+<div class="group bg-surface-container-lowest rounded-lg p-md border border-outline-variant hover:shadow-md transition-all duration-200 active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="A sharp, high-contrast digital illustration of a stylized octopus logo representing developer tools. The aesthetic is clean and modern, featuring a cool blue and deep navy color scheme that aligns with a professional workspace. The lighting is soft and ambient, emphasizing the smooth gradients and crisp edges of the vector artwork in a light-mode interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQLaXn1H3vrlAY9IjGzr3xTCDcSBwSNptF4e2WkX2A6MYhVsxuBxCQADMTmYVhYHa_UhtpqT6YqUBN3nLcj6ydjZq8o11VFLGjBhqNI0V3xImF08MouSpbu9Tgzod__8P75HLdQ8p18wTzJwVKup3rkojjXpa0HRF9VX8kg7ymKKcqsiLaThNS7q1itu33xzn0leTV_I6mvW4RRAO5CJRebj5uQXI6Gt2sSKWGrNnrXUHAF4zDPCASI47DFwezHRwoh_6jk7WOXNjV"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight line-clamp-1">GitHub Repository</h3>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<p class="text-body-sm font-body-sm text-outline truncate mb-xs">github.com/ui-frameworks/main</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Work</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Code</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bookmark Card 3 (With Image Preview) -->
+<div class="group bg-surface-container-lowest rounded-lg border border-outline-variant hover:shadow-md transition-all duration-200 active:scale-[0.98] overflow-hidden">
+<div class="w-full aspect-video bg-cover bg-center" data-alt="A cinematic, wide-angle shot of a serene mountain landscape reflected in a still lake at dawn. The color palette is composed of soft blues, pale pinks, and gentle morning light. The composition is clean and minimalist, evoking a sense of calm and order. The high-key lighting supports a modern, light-themed digital design aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAF8wHI9y4C52MBzGEwOXp0_tft9Ruejl-Nacw62IUfaH8C15T-l-vsnuC83-DB4ZzW8ONKvAv6N_9Bcv12F967-pOaTX2zmVbJ4nSxhcNBbm8riH0lQmGjgB8VGdKFG-vwd3QWb4_oJp8bf7WZXXeICSeaB3yoTR3LH0nT9iphlzopcRzFgyWRom0APAhv1CdRrw1CNSUPHUEVjgXS6RjNYvuomNh-fwkeGcVU2atJf0sOZY0LmtJYnmfmQFKeS58WM2cBso8p0C8f')"></div>
+<div class="p-md">
+<div class="flex gap-4 items-start">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img class="w-6 h-6 object-contain" data-alt="A minimalist vector icon of a camera lens, rendered in a sophisticated palette of greys and vibrant blue. The style is ultra-modern and functional, fitting a high-end photography blog or digital gallery. The lighting is bright and clean, perfectly integrated into a minimal white background design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAP6HGQQBC3D_MbiBUg-BOLnyZT-UFbSazwuZ3_V2ab_GdnT_D1xH4o-O0lwR1VUNkslpEJ2x9izlApEaaSKQxTfsYJ3e2GpXC7YxCjK-P2VfndRGUO7WmohTwaF_z1330ya5zwHTX1aBTs7zpOLBPd-Gy5qQuyomV5Fm_F2m3Y7-yCtEz_Op5WRI_KNhq2AyyVYpTiB_AiCAtgQdLCw9EoyEiHKOnSjatl6YuY6ecf5E1P0tbJk7_wvcfIulNgatQBEVXJwYXjJuo"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight line-clamp-1">Landscape Photography Tips</h3>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<p class="text-body-sm font-body-sm text-outline truncate mb-xs">blog.photo.com/tutorials/landscapes</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Tutorials</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bookmark Card 4 -->
+<div class="group bg-surface-container-lowest rounded-lg p-md border border-outline-variant hover:shadow-md transition-all duration-200 active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="A clean, flat-design icon of a coffee cup with a minimalist steam swirl, rendered in a soft blue and white palette. The background is a very light grey-blue. The overall look is approachable and organized, matching a lifestyle or personal organization app's aesthetic. High-key lighting ensures every line is crisp and visible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSC7_ybjuWkAFR4v99C0acQT3AvMlOOOwW9uJANWqq_jxLdy3m8pZKrESG9Ck06ZXPnvS1wbgki4P8k-w0ojD8ysOOFcljL78jaKiCS1NGoqbaW8iDqcoFxkvwL3sG-_EGW9JJ__M_bQktMBW1nLiAG7FXT399P5Bjzsu4EbWkWSFs_0V964FTMYZVv3bzgDsiwaM22zgrw4TXYIPKN_t4EKxqk4Oub-BWZNAZvNPPSHI0djcQ2gAlcQ-_YHUcDmcugztn7u33Wiq"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight line-clamp-1">Local Café Hours</h3>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<p class="text-body-sm font-body-sm text-outline truncate mb-xs">maps.google.com/coffee-spot</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-md text-label-md">Personal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Contextual for Home/Library) -->
+<button class="fixed bottom-[88px] right-md w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center transition-all duration-200 active:scale-90 hover:brightness-110 z-30">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+</button>
+<!-- Bottom Navigation Bar (from JSON) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface-container dark:bg-inverse-surface shadow-sm z-50">
+<!-- Library (Active) -->
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="folder_special" style="font-variation-settings: 'FILL' 1;">folder_special</span>
+<span class="font-label-md text-label-md">Library</span>
+</div>
+<!-- Collections -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-label-md text-label-md">Collections</span>
+</div>
+<!-- Shared -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Shared</span>
+</div>
+<!-- Settings -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button, div[role="button"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.className = 'absolute bg-white/20 rounded-full animate-ping';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.left = e.offsetX + 'px';
+                ripple.style.top = e.offsetY + 'px';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 400);
+            });
+        });
+
+        // Filter chip toggle logic
+        const chips = document.querySelectorAll('.no-scrollbar button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                    c.classList.add('bg-surface-container', 'text-on-surface-variant');
+                });
+                chip.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>
