@@ -1,0 +1,173 @@
+{
+  "epics": [
+    {
+      "existingEpicId": null,
+      "title": "User Authentication and Onboarding",
+      "jtbd": "When a new or returning user visits the app, I want to securely register or log in, so that I can access my private bookmarks safely.",
+      "kanoClass": "Must-Be",
+      "cynefinDomain": "complicated",
+      "sixSigmaMetric": "Increase successful login/registration rate to 99.9%",
+      "tocConstraintRef": "User onboarding friction",
+      "sourceIndex": 0,
+      "requirements": [
+        "R1: Users can register a new account.",
+        "R2: Users can log into their existing account."
+      ],
+      "coverageComplete": true,
+      "slices": [
+        {
+          "title": "User Data Schema",
+          "roleTag": "BARCAN-TAG-08",
+          "jtbd": "When implementing user data persistence for this epic, I want to define the database schema and queries, so that user credentials can be securely stored and retrieved.",
+          "acceptanceCriteria": "Given a new user registration, When the data is saved, Then it is persisted securely in the database.\nGiven a login attempt, When querying the user, Then the correct credentials can be validated.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Database schema changes",
+          "sixSigmaMetric": "Reduce schema validation errors to 0",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "title": "Authentication API Contract",
+          "roleTag": "BARCAN-TAG-12",
+          "jtbd": "When implementing the API contract for this epic, I want to define the OpenAPI spec for registration and login, so that frontend and backend can be developed in parallel.",
+          "acceptanceCriteria": "Given the need for parallel development, When defining the endpoints, Then both registration and login request/response schemas are fully documented.\nGiven the frontend needs to call the API, When integrating, Then the types strictly match the contract.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Frontend-backend integration delays",
+          "sixSigmaMetric": "Reduce API integration defects to 0",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "title": "Authentication Backend API",
+          "roleTag": "BARCAN-TAG-02",
+          "jtbd": "When implementing the auth API for this epic, I want to build the login and registration endpoints, so that user requests are authenticated and tokens are issued.",
+          "acceptanceCriteria": "Given valid registration details, When the API is called, Then a new user is created and a success response is returned.\nGiven valid login credentials, When the API is called, Then an authentication token is provided.",
+          "leanValue": "essential",
+          "cynefinDomain": "complicated",
+          "tocConstraintRef": "Backend logic implementation",
+          "sixSigmaMetric": "Increase backend authentication endpoint coverage to 100%",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "title": "Authentication UI",
+          "roleTag": "BARCAN-TAG-11",
+          "jtbd": "When implementing the auth UI for this epic, I want to build the registration and login forms, so that users can input their credentials and access the app.",
+          "acceptanceCriteria": "Given an unauthenticated user, When they visit the app, Then they are presented with login and registration forms.\nGiven valid inputs are submitted, When the form is sent, Then the user is logged in and redirected.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Frontend state management",
+          "sixSigmaMetric": "Reduce UI rendering errors to 0",
+          "hasUi": true,
+          "requirementRefs": [
+            "R1",
+            "R2"
+          ]
+        }
+      ]
+    },
+    {
+      "existingEpicId": null,
+      "title": "Bookmarks Management",
+      "jtbd": "When I want to save a useful link, I want to manage a list of bookmarks with tags and notes, so that I can easily find them later.",
+      "kanoClass": "Performance",
+      "cynefinDomain": "clear",
+      "sixSigmaMetric": "Reduce time to retrieve a bookmark to under 1 second",
+      "tocConstraintRef": "Bookmark retrieval time",
+      "sourceIndex": 0,
+      "requirements": [
+        "R1: Users can create a new bookmark with URL, title, optional notes, and optional tags.",
+        "R2: Users can edit an existing bookmark.",
+        "R3: Users can delete a bookmark.",
+        "R4: Users can list all their saved bookmarks, sorted newest-first.",
+        "R5: Users can search or filter bookmarks by title or tag."
+      ],
+      "coverageComplete": true,
+      "slices": [
+        {
+          "title": "Bookmarks Data Schema",
+          "roleTag": "BARCAN-TAG-08",
+          "jtbd": "When implementing bookmark storage for this epic, I want to define the schema and indices for bookmarks, so that they can be efficiently stored, sorted, and queried by title or tag.",
+          "acceptanceCriteria": "Given a valid bookmark model, When saved to the database, Then it successfully persists URL, title, notes, and tags.\nGiven a need to fetch bookmarks, When queried, Then they are returned sorted newest-first.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Database query performance",
+          "sixSigmaMetric": "Reduce average database query time for bookmarks to < 10ms",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        },
+        {
+          "title": "Bookmarks API Contract",
+          "roleTag": "BARCAN-TAG-12",
+          "jtbd": "When implementing the API contract for this epic, I want to define the CRUD and search endpoints for bookmarks, so that frontend and backend have a shared specification.",
+          "acceptanceCriteria": "Given the need to fetch and filter bookmarks, When defining the contract, Then query parameters for tags, title, and sorting are specified.\nGiven bookmark creation, When defining the payload, Then URL and title are marked required while notes and tags are optional.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Frontend-backend integration delays",
+          "sixSigmaMetric": "Reduce API contract mismatches to 0",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        },
+        {
+          "title": "Bookmarks Backend API",
+          "roleTag": "BARCAN-TAG-02",
+          "jtbd": "When implementing the backend for this epic, I want to build the REST API endpoints, so that the frontend can execute CRUD and search operations on bookmarks.",
+          "acceptanceCriteria": "Given an authenticated request to create a bookmark, When processed, Then the bookmark is saved and returned.\nGiven a request to fetch bookmarks with a search query, When processed, Then only bookmarks matching the title or tag are returned.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "API response latency",
+          "sixSigmaMetric": "Ensure 99th percentile API response time is under 100ms",
+          "hasUi": false,
+          "requirementRefs": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        },
+        {
+          "title": "Bookmarks Management UI",
+          "roleTag": "BARCAN-TAG-11",
+          "jtbd": "When implementing the frontend for this epic, I want to build the UI for viewing, adding, editing, deleting, and filtering bookmarks, so that users can interact with their saved links.",
+          "acceptanceCriteria": "Given the user navigates to the bookmarks list, When loaded, Then bookmarks are displayed sorted newest-first.\nGiven the user enters a search term, When submitted, Then the list is filtered by matching title or tag.",
+          "leanValue": "essential",
+          "cynefinDomain": "clear",
+          "tocConstraintRef": "Client-side rendering performance",
+          "sixSigmaMetric": "Ensure UI updates under 16ms to maintain 60fps",
+          "hasUi": true,
+          "requirementRefs": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        }
+      ]
+    }
+  ]
+}
