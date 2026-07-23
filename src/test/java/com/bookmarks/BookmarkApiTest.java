@@ -1,5 +1,8 @@
 package com.bookmarks;
 
+import com.bookmarks.dto.AuthResponse;
+import com.bookmarks.dto.LoginRequest;
+import com.bookmarks.dto.RegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,59 +48,28 @@ public class BookmarkApiTest {
         userRepository.deleteAll();
     }
 
-    @Test
-    public void testUserRegistrationAndLoginFlow() throws Exception {
-        // 1. Register a new user
-        UserRegistrationRequest regReq = new UserRegistrationRequest("jane_doe", "my_secure_password_123");
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(regReq)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.message", is("User registered successfully")));
-
-        // 2. Register same user again should fail (400 Bad Request)
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(regReq)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error", is("Bad Request")));
-
-        // 3. Login with correct credentials
-        UserLoginRequest loginReq = new UserLoginRequest("jane_doe", "my_secure_password_123");
-        mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginReq)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token", notNullValue()))
-                .andExpect(jsonPath("$.type", is("Bearer")));
-
-        // 4. Login with incorrect credentials should fail (401 Unauthorized)
-        UserLoginRequest wrongLoginReq = new UserLoginRequest("jane_doe", "wrong_password");
-        mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(wrongLoginReq)))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error", is("Unauthorized")));
-    }
+    // Registration/login success, conflict, and bad-credentials coverage now lives in
+    // controller.AuthControllerTest - this class only needs a working register+login flow to
+    // obtain tokens for exercising the bookmark endpoints below.
 
     @Test
     public void testBookmarkCrudFlowAndSecurity() throws Exception {
         // Register & login to get token
-        UserRegistrationRequest regReq = new UserRegistrationRequest("owner_user", "password123");
+        RegisterRequest regReq = new RegisterRequest("owner_user", "owner_user@example.com", "password123");
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(regReq)))
                 .andExpect(status().isCreated());
 
-        UserLoginRequest loginReq = new UserLoginRequest("owner_user", "password123");
+        LoginRequest loginReq = new LoginRequest("owner_user", "password123");
         String loginResponse = mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginReq)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        TokenResponse tokenResponse = objectMapper.readValue(loginResponse, TokenResponse.class);
-        String token = "Bearer " + tokenResponse.getToken();
+        AuthResponse authResponse = objectMapper.readValue(loginResponse, AuthResponse.class);
+        String token = "Bearer " + authResponse.getToken();
 
         // 1. Create a bookmark
         BookmarkRequest bookmarkReq = new BookmarkRequest(
@@ -151,20 +123,20 @@ public class BookmarkApiTest {
 
         // 4. Test security: Another user should not access this bookmark
         // Register another user
-        UserRegistrationRequest otherReg = new UserRegistrationRequest("other_user", "password123");
+        RegisterRequest otherReg = new RegisterRequest("other_user", "other_user@example.com", "password123");
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(otherReg)))
                 .andExpect(status().isCreated());
 
-        UserLoginRequest otherLogin = new UserLoginRequest("other_user", "password123");
+        LoginRequest otherLogin = new LoginRequest("other_user", "password123");
         String otherLoginResp = mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(otherLogin)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        String otherToken = "Bearer " + objectMapper.readValue(otherLoginResp, TokenResponse.class).getToken();
+        String otherToken = "Bearer " + objectMapper.readValue(otherLoginResp, AuthResponse.class).getToken();
 
         // Other user tries to GET bookmark by ID -> 403 Forbidden
         mockMvc.perform(get("/api/bookmarks/" + bookmarkId)
@@ -198,20 +170,20 @@ public class BookmarkApiTest {
     @Test
     public void testSearchAndFilterBookmarks() throws Exception {
         // Register & login
-        UserRegistrationRequest regReq = new UserRegistrationRequest("search_user", "password123");
+        RegisterRequest regReq = new RegisterRequest("search_user", "search_user@example.com", "password123");
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(regReq)))
                 .andExpect(status().isCreated());
 
-        UserLoginRequest loginReq = new UserLoginRequest("search_user", "password123");
+        LoginRequest loginReq = new LoginRequest("search_user", "password123");
         String loginResponse = mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginReq)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        String token = "Bearer " + objectMapper.readValue(loginResponse, TokenResponse.class).getToken();
+        String token = "Bearer " + objectMapper.readValue(loginResponse, AuthResponse.class).getToken();
 
         // Create 3 bookmarks
         BookmarkRequest b1 = new BookmarkRequest("https://google.com", "Google Search Engine", "Notes", Arrays.asList("search", "google"));
