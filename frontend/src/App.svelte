@@ -8,6 +8,7 @@
 
   // Form states for login/register
   let authUsername = $state('');
+  let authEmail = $state('');
   let authPassword = $state('');
   let authError = $state('');
   let authLoading = $state(false);
@@ -143,6 +144,10 @@
       authError = 'Username must be at least 3 characters.';
       return;
     }
+    if (!authEmail) {
+      authError = 'Email is required.';
+      return;
+    }
     if (authPassword.length < 6) {
       authError = 'Password must be at least 6 characters.';
       return;
@@ -155,6 +160,7 @@
       await apiFetch('/api/auth/register', {
         method: 'POST',
         body: JSON.stringify({ username: authUsername, password: authPassword })
+        body: JSON.stringify({ username: authUsername, email: authEmail, password: authPassword })
       });
       // Automatically switch to login upon successful registration
       currentView = 'login';
@@ -166,6 +172,10 @@
         authError = 'Username already exists.';
       } else {
         registeredUsers.push({ username: authUsername, password: authPassword });
+      } else if (registeredUsers.some((u: any) => u.email === authEmail)) {
+        authError = 'Email already exists.';
+      } else {
+        registeredUsers.push({ username: authUsername, email: authEmail, password: authPassword });
         localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
         currentView = 'login';
         authError = 'Registered successfully (Local Fallback)! Please log in.';
@@ -484,6 +494,23 @@
               required
             />
           </div>
+
+          {#if currentView === 'register'}
+            <!-- Email Input -->
+            <div class="space-y-1">
+              <label class="block text-[0.875rem] font-semibold text-on-surface-variant" for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                bind:value={authEmail}
+                placeholder="name@company.com"
+                class="w-full h-12 px-4 bg-white border border-outline-variant rounded-lg text-[1rem] text-on-surface placeholder:text-outline/50 transition-all focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                required
+              />
+            </div>
+          {/if}
 
           <!-- Password Input -->
           <div class="space-y-1">

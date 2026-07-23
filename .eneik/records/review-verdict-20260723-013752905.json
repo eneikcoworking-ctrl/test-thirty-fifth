@@ -1,0 +1,16 @@
+{
+  "verdicts": [
+    {
+      "sourceIndex": 0,
+      "verdict": "block",
+      "criticalReason": "PR contains committed generated orchestrator artifacts (.eneik/records/*.json) and a critical security vulnerability where any non-empty username/password bypasses authentication via a developer fallback.",
+      "concerns": []
+    },
+    {
+      "sourceIndex": 1,
+      "verdict": "approve",
+      "criticalReason": "",
+      "concerns": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{"verdicts": [
+  {
+    "sourceIndex": 0,
+    "verdict": "approve",
+    "criticalReason": "",
+    "concerns": [
+      "JWT expiration is hardcoded (86400000L) directly in the AuthController instead of being externalized to application properties.",
+      "The AuthController directly handles password encoding and JWT signing logic rather than delegating these concerns to service components."
+    ]
+  }
+]}

@@ -138,13 +138,21 @@ public class BookmarkDatabaseTest {
 
     @Test
     public void testDownMigrationScriptExecutesSuccessfully() throws IOException {
-        // Read rollback SQL
-        String downSqlPath = "src/main/resources/db/migration/U1__init_bookmarks_schema.sql";
-        String downSql = Files.readString(Paths.get(downSqlPath));
+        // Read and run rollback for V2
+        String downSqlPath2 = "src/main/resources/db/migration/U2__add_user_email_and_updated_at.sql";
+        String downSql2 = Files.readString(Paths.get(downSqlPath2));
+        String[] sqlStatements2 = downSql2.split(";");
+        for (String sql : sqlStatements2) {
+            if (!sql.trim().isEmpty()) {
+                jdbcTemplate.execute(sql.trim());
+            }
+        }
 
-        // Execute rollback commands split by semicolon
-        String[] sqlStatements = downSql.split(";");
-        for (String sql : sqlStatements) {
+        // Read and run rollback for V1
+        String downSqlPath1 = "src/main/resources/db/migration/U1__init_bookmarks_schema.sql";
+        String downSql1 = Files.readString(Paths.get(downSqlPath1));
+        String[] sqlStatements1 = downSql1.split(";");
+        for (String sql : sqlStatements1) {
             if (!sql.trim().isEmpty()) {
                 jdbcTemplate.execute(sql.trim());
             }
@@ -157,11 +165,20 @@ public class BookmarkDatabaseTest {
         );
         assertThat(tables).doesNotContain("BOOKMARKS", "USERS", "TAGS", "BOOKMARK_TAGS");
 
-        // Re-execute up migration V1 to leave database in correct state
-        String upSqlPath = "src/main/resources/db/migration/V1__init_bookmarks_schema.sql";
-        String upSql = Files.readString(Paths.get(upSqlPath));
-        String[] upStatements = upSql.split(";");
-        for (String sql : upStatements) {
+        // Re-execute up migration V1 and V2 to leave database in correct state
+        String upSqlPath1 = "src/main/resources/db/migration/V1__init_bookmarks_schema.sql";
+        String upSql1 = Files.readString(Paths.get(upSqlPath1));
+        String[] upStatements1 = upSql1.split(";");
+        for (String sql : upStatements1) {
+            if (!sql.trim().isEmpty()) {
+                jdbcTemplate.execute(sql.trim());
+            }
+        }
+
+        String upSqlPath2 = "src/main/resources/db/migration/V2__add_user_email_and_updated_at.sql";
+        String upSql2 = Files.readString(Paths.get(upSqlPath2));
+        String[] upStatements2 = upSql2.split(";");
+        for (String sql : upStatements2) {
             if (!sql.trim().isEmpty()) {
                 jdbcTemplate.execute(sql.trim());
             }
