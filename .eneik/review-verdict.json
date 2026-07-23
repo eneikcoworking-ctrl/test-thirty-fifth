@@ -2,12 +2,11 @@
   "verdicts": [
     {
       "sourceIndex": 0,
-      "verdict": "approve",
-      "criticalReason": "",
+      "verdict": "block",
+      "criticalReason": "The PR commits generated or build artifacts, specifically the binary image file 'frontend/src/assets/hero.png' (.png files are explicitly forbidden from being committed), as well as internal grading/review files under '.eneik/'.",
       "concerns": [
-        "In PasswordUtil, the passwords are hashed using plain SHA-256 without any unique per-user salt or slow-hashing derivation function (like BCrypt or PBKDF2), making them highly susceptible to precomputed rainbow table attacks.",
-        "In BookmarkController, tag matching is performed in-memory rather than at the database/repository query level. This will result in high memory consumption and poor query performance as the bookmark dataset grows.",
-        "The JwtUtil class performs manual JWT string manipulation and custom Base64Url parsing/claims extraction instead of using standard production-ready JWT libraries (e.g., jjwt or java-jwt), which can introduce security edge cases, validation gaps, or parse bugs."
+        "The application fallback logic in 'App.svelte' contains hardcoded mock credentials ('developer' / 'password123') and tokens.",
+        "There are no automated frontend tests written for the newly implemented bookmarks management UI components."
       ]
     }
   ]
