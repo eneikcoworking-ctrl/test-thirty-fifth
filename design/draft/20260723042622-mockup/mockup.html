@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MarkIt - My Bookmarks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f9f9fc",
+                    "primary-container": "#0066ff",
+                    "secondary-fixed": "#d3e4fe",
+                    "primary-fixed": "#dae1ff",
+                    "surface-bright": "#f9f9fc",
+                    "surface-dim": "#dadadc",
+                    "inverse-on-surface": "#f0f0f3",
+                    "surface-container-low": "#f3f3f6",
+                    "secondary": "#505f76",
+                    "on-tertiary-fixed-variant": "#832600",
+                    "on-primary-fixed-variant": "#003fa4",
+                    "inverse-surface": "#2f3133",
+                    "surface": "#f9f9fc",
+                    "inverse-primary": "#b3c5ff",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#cc4204",
+                    "surface-container-highest": "#e2e2e5",
+                    "on-tertiary-container": "#fff6f4",
+                    "on-primary-fixed": "#001849",
+                    "on-surface": "#1a1c1e",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-tint": "#0054d6",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-background": "#1a1c1e",
+                    "primary-fixed-dim": "#b3c5ff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#ffdbd0",
+                    "tertiary-fixed-dim": "#ffb59d",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c2c6d8",
+                    "outline": "#727687",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#54647a",
+                    "on-tertiary-fixed": "#390c00",
+                    "surface-container": "#eeeef0",
+                    "primary": "#0050cb",
+                    "on-primary-container": "#f8f7ff",
+                    "on-surface-variant": "#424656",
+                    "tertiary": "#a33200",
+                    "surface-variant": "#e2e2e5",
+                    "secondary-container": "#d0e1fb",
+                    "surface-container-high": "#e8e8ea",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#38485d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "edge-margin": "16px",
+                    "gutter": "12px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "url-text": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "url-text": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e2e5; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-40 bg-surface shadow-sm transition-all duration-300" id="top-app-bar">
+<div class="flex items-center justify-between px-edge-margin h-16 w-full max-w-screen-xl mx-auto gap-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="bookmarks">bookmarks</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">MarkIt</h1>
+</div>
+<!-- Search Field - Integrated into TopAppBar for high-utility minimalism -->
+<div class="flex-1 max-w-md hidden md:flex items-center relative">
+<span class="material-symbols-outlined absolute left-3 text-outline text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 py-2 text-body-md focus:ring-2 focus:ring-primary-container transition-all outline-none" placeholder="Search your bookmarks..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button aria-label="Search" class="md:hidden p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a user with a friendly expression, soft studio lighting, minimalist background, high-key photography style with a clean modern aesthetic, consistent with a premium productivity application interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbRd79rY2QyzPi0m5k4cT7pD4ayEyS6MKhdQSmq-m59TMJeijdoR-30Jemqo63VIEMnBxafifwiUibBMeDibml52MNjCf60WlSiGGc7IHUEntzBRsUY8gCWeTNsQ2WDVuGAR1jvHLkfeDFmk3o4I63QRh_-YUtKh5kO2qzjdug_Um5f7EQRmwKp6BU9CskQPAjj9uCYnh6jiQQgGTm6b3z4iRwkHgraZwyVeQD24JdSLn7rQyzqOKltNih2AziM-Y4wqPpgbTOv9c"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-screen-xl mx-auto px-edge-margin pb-32 pt-lg">
+<!-- Welcome & Stats Section (Asymmetric Layout) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">
+<div class="md:col-span-8">
+<h2 class="font-headline-md text-headline-md mb-xs">Welcome back, Alex</h2>
+<p class="text-on-surface-variant text-body-md">You have 124 saved items across 8 collections.</p>
+</div>
+<div class="md:col-span-4 flex gap-md justify-end items-end">
+<div class="bg-surface-container-low px-md py-sm rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="bolt">bolt</span>
+<span class="font-label-md text-label-md text-on-surface">Recent: Github</span>
+</div>
+</div>
+</section>
+<!-- Category Filters (Horizontal Scroll) -->
+<div class="flex gap-sm overflow-x-auto pb-md no-scrollbar mb-lg">
+<button class="flex-shrink-0 bg-primary-container text-on-primary-container px-md py-2 rounded-full font-label-md text-label-md transition-transform active:scale-95">All Links</button>
+<button class="flex-shrink-0 bg-surface-container-lowest text-secondary border border-outline-variant px-md py-2 rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Development</button>
+<button class="flex-shrink-0 bg-surface-container-lowest text-secondary border border-outline-variant px-md py-2 rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Design</button>
+<button class="flex-shrink-0 bg-surface-container-lowest text-secondary border border-outline-variant px-md py-2 rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Research</button>
+<button class="flex-shrink-0 bg-surface-container-lowest text-secondary border border-outline-variant px-md py-2 rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">Documentation</button>
+</div>
+<!-- Bookmark List Container -->
+<div class="flex flex-col gap-gutter">
+<!-- Bookmark Item: Github -->
+<div class="group flex items-center bg-surface-container-lowest p-md rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] hover:shadow-md transition-all duration-300 border border-transparent hover:border-primary-container/20">
+<div class="w-12 h-12 flex-shrink-0 rounded-lg bg-surface-container-high flex items-center justify-center mr-md overflow-hidden border border-outline-variant/30">
+<img class="w-8 h-8 object-contain" data-alt="A minimalist tech logo for a version control website, sharp vector style on a clean white background, high contrast, professional digital branding aesthetic, bright lighting, center aligned." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB9KO1wSX174VHIS88vhLMxW2S1o04SKc961oFtdXNceFKli9fVxr46RbVt44NsKMHkSOJnVqHPMrkaeT8BS0J6rLolEd0g8MHnFZH3a3bKPRehDsYTn3gKKsSOb3TmMF3jY-pgITRUflob9rxFbcQ_hDC7ya85WbBeWrh0hRYt6opa9AsUUnCWtZN3GDnCn9JacEuBVBimiCH8NH9t2U_7uMGDNC_tCc1oaXdHBn8M2A8oVrb3m6vFaVKx-MkaKhi_PDnADWL0qA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-xs">
+<h3 class="font-headline-md text-[16px] leading-tight truncate text-on-surface group-hover:text-primary transition-colors">Github</h3>
+<span class="material-symbols-outlined text-outline text-[14px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-url-text text-url-text text-outline truncate mb-xs">https://github.com/trending</p>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Development</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Open Source</span>
+</div>
+</div>
+<div class="flex items-center gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary"><span class="material-symbols-outlined" data-icon="share">share</span></button>
+<button class="p-2 text-outline hover:text-error"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+<button class="p-2 text-outline hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+<!-- Bookmark Item: Dribbble -->
+<div class="group flex items-center bg-surface-container-lowest p-md rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] hover:shadow-md transition-all duration-300 border border-transparent hover:border-primary-container/20">
+<div class="w-12 h-12 flex-shrink-0 rounded-lg bg-[#ea4c89]/10 flex items-center justify-center mr-md overflow-hidden border border-outline-variant/30">
+<img class="w-8 h-8 object-contain" data-alt="A stylized pink basketball icon representing a design community platform, high-quality vector graphic, clean minimalist lines, soft studio lighting, vibrant pink color palette, professional digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7_EN7_Aua25bRRE3JAe_yiMMyozqYeQakKEvMXRy1HY5RY3rsQjAxMVbvh-ANTIPrRRxAXvF-LVh49rLZTIhu4KXr96a2n2tM_x5Unm0K-kC-ys0eVUrFo9-_3N6kVI0V1xP2bvGDnfPFIlQxYYevpjBe8zo5fJk-bbZMjtikx6Q2evDMoEM6m5zHzsbORP1W-Nfbyfv6aWS71FvcdfSE9VXoXIPavW8mflJhRZNEis3rjqIBIJDfaWgvHLuCbNqsIZqwalnQBc0"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-headline-md text-[16px] leading-tight truncate text-on-surface group-hover:text-primary transition-colors">Dribbble - Discover the World’s Top Designers</h3>
+<p class="text-url-text text-url-text text-outline truncate mb-xs">https://dribbble.com/shots</p>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Design</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Inspiration</span>
+</div>
+</div>
+<div class="flex items-center gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary"><span class="material-symbols-outlined" data-icon="share">share</span></button>
+<button class="p-2 text-outline hover:text-error"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+<button class="p-2 text-outline hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+<!-- Bookmark Item: MDN Web Docs -->
+<div class="group flex items-center bg-surface-container-lowest p-md rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] hover:shadow-md transition-all duration-300 border border-transparent hover:border-primary-container/20">
+<div class="w-12 h-12 flex-shrink-0 rounded-lg bg-surface-container-high flex items-center justify-center mr-md overflow-hidden border border-outline-variant/30">
+<img class="w-8 h-8 object-contain" data-alt="The letters MDN in a bold, black stencil font, representing a web developer resource, minimalist black and white aesthetic, clean vector style, high professional resolution, bright background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtT7qpNG8QTqAoNHX5U-Xi87MpxbBuXbNJrJx_fzZjeieSzUyUr8e9X-KAoj9iUmQu5jP_xXUFP5zbdH-3az_bW7oivcgi8JxGSCKTcxDxNefQA9oWtIr80DX7VjRp7aCS0m36jlpWdr6hx6zx_x-lkKxapi5i4_DeGQCCTBvEN43ajNN0xtFt4wrP8Ips1BNG89LCoWKi2yhnFVmP4HPwCt5qzal9hRXsxDc4CmMHXkDHNUOQxjpPy7Q3hHHvzf09GbP7O_5VPe0"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-headline-md text-[16px] leading-tight truncate text-on-surface group-hover:text-primary transition-colors">MDN Web Docs</h3>
+<p class="text-url-text text-url-text text-outline truncate mb-xs">https://developer.mozilla.org/en-US/</p>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Documentation</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Web Dev</span>
+</div>
+</div>
+<div class="flex items-center gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary"><span class="material-symbols-outlined" data-icon="share">share</span></button>
+<button class="p-2 text-outline hover:text-error"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+<button class="p-2 text-outline hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+<!-- Bookmark Item: Framer Motion -->
+<div class="group flex items-center bg-surface-container-lowest p-md rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] hover:shadow-md transition-all duration-300 border border-transparent hover:border-primary-container/20">
+<div class="w-12 h-12 flex-shrink-0 rounded-lg bg-inverse-surface flex items-center justify-center mr-md overflow-hidden border border-outline-variant/30">
+<img class="w-8 h-8 object-contain" data-alt="A geometric purple and blue abstract icon representing an animation library, sharp gradients, high-tech modern aesthetic, clean minimalist vector art, white studio backdrop, bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfWArcmLQaCU5NSczDsVR6hafIeMDpjQx77v8R1udl9Zet4OSQ4dQOiCzhTUnRP9KZpRblsfUKADwuZyqss7QIN9byTkVwY5aTAF0DjigrRAvoEY2GR5_f5mwN3KkkfkljGdLP5fJacaP0Kf3omM22KbndeCPYtPJTGtzHH4xgMgQo0F_SF4jqZI3sWfPtM6q1NCQSs9whlkqX-4_svguaZa6kLhu3txubX3m9aRhgdvler3y5w-EM8p2fndzY-NNZPCiDm4j5C9Y"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-headline-md text-[16px] leading-tight truncate text-on-surface group-hover:text-primary transition-colors">Framer Motion Documentation</h3>
+<p class="text-url-text text-url-text text-outline truncate mb-xs">https://www.framer.com/motion/</p>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">Animation</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded font-label-sm text-label-sm">React</span>
+</div>
+</div>
+<div class="flex items-center gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary"><span class="material-symbols-outlined" data-icon="share">share</span></button>
+<button class="p-2 text-outline hover:text-error"><span class="material-symbols-outlined" data-icon="delete">delete</span></button>
+<button class="p-2 text-outline hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-xl flex justify-center">
+<button class="flex items-center gap-sm px-xl py-3 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors font-label-md text-label-md">
+                Load more bookmarks
+                <span class="material-symbols-outlined text-md" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</main>
+<!-- FAB: Add New Bookmark -->
+<button class="fixed bottom-24 right-6 md:right-12 w-16 h-16 bg-primary shadow-xl rounded-full flex items-center justify-center text-on-primary active:scale-90 transition-transform duration-200 z-50 group">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+<span class="absolute right-20 bg-inverse-surface text-inverse-on-surface px-md py-2 rounded-lg text-body-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300 whitespace-nowrap shadow-lg">New Bookmark</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center py-sm bg-surface-container-lowest shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] border-t border-outline-variant z-50 md:hidden" id="bottom-nav">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary px-4 py-1 hover:bg-secondary-container opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+<span class="font-label-sm text-label-sm">Collections</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary px-4 py-1 hover:bg-secondary-container opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary px-4 py-1 hover:bg-secondary-container opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<!-- Desktop Side Navigation (For Web layout) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-lowest hidden md:flex flex-col border-r border-outline-variant p-md">
+<nav class="flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-3 rounded-xl bg-primary-container text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+<span class="font-label-md text-label-md">Collections</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Recent</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="label">label</span>
+<span class="font-label-md text-label-md">Tags</span>
+</a>
+<div class="h-px bg-outline-variant/30 my-md"></div>
+<a class="flex items-center gap-md px-md py-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto bg-primary-fixed-dim/20 p-md rounded-xl border border-primary-fixed">
+<p class="font-label-md text-label-md text-primary font-bold mb-xs">Pro Plan</p>
+<p class="text-on-surface-variant text-[11px] mb-md leading-tight">Unlock unlimited collections and AI tagging.</p>
+<button class="w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md active:scale-95 transition-transform">Upgrade</button>
+</div>
+</aside>
+<script>
+        // Micro-interaction: Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('top-app-bar');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.classList.add('bg-surface/95');
+                header.classList.add('backdrop-blur-md');
+            } else {
+                header.classList.remove('shadow-md');
+                header.classList.remove('bg-surface/95');
+                header.classList.remove('backdrop-blur-md');
+            }
+        });
+
+        // Simple FAB interaction animation
+        const fab = document.querySelector('button.fixed.bottom-24');
+        fab.addEventListener('mouseenter', () => {
+            fab.classList.add('rotate-90');
+        });
+        fab.addEventListener('mouseleave', () => {
+            fab.classList.remove('rotate-90');
+        });
+    </script>
+</body></html>
