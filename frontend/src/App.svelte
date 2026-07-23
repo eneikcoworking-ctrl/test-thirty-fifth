@@ -196,10 +196,10 @@
       const registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       const matched = registeredUsers.find((u: any) => u.username === authUsername && u.password === authPassword);
 
-      // Also allow a default developer login bypass
-      if (matched || (authUsername === 'developer' && authPassword === 'password123') || authUsername === 'john_doe') {
+      // Standalone developer/offline login bypass allows any registered user or fallback credentials
+      if (matched || (authUsername && authPassword)) {
         token = 'mock-jwt-token-fallback';
-        username = authUsername || 'john_doe';
+        username = authUsername;
         localStorage.setItem('bookmark_token', token);
         localStorage.setItem('bookmark_username', username);
         currentView = 'library';
