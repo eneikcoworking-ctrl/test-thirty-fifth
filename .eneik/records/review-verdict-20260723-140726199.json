@@ -1,0 +1,10 @@
+{
+  "verdicts": [
+    {
+      "sourceIndex": 0,
+      "verdict": "block",
+      "criticalReason": "The PR violates the explicit boundary: 'Never create, write, modify, or commit anything under a path starting with .eneik/'. It has modified '.eneik/review-verdict.json' and committed a new file under '.eneik/records/' in its diff.",
+      "concerns": []
+    }
+  ]
+}
