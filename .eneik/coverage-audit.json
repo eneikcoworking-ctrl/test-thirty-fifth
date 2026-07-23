@@ -1,0 +1,46 @@
+{
+  "gaps": [
+    {
+      "title": "Bookmarks REST API Endpoints",
+      "roleTag": "BARCAN-TAG-02",
+      "jtbd": "When I am an authenticated user, I want to manage bookmarks via a REST API, so that my bookmark data can be created, updated, deleted, and retrieved programmatically.",
+      "acceptanceCriteria": "Given an authenticated user, When they send a POST request with a URL, title, optional notes, and optional tags, Then a new bookmark is created and returned.\nGiven an existing bookmark, When the user sends a PUT request to update or a DELETE request to remove it, Then the bookmark is updated or deleted in the system.",
+      "reason": "literal brief requirement: Provide a REST API for CRUD on bookmarks."
+    },
+    {
+      "title": "Web UI for Bookmark Management",
+      "roleTag": "BARCAN-TAG-11",
+      "jtbd": "When I am logged into the application, I want to use a web interface to view and manage my bookmarks, so that I can easily organize and search my saved links.",
+      "acceptanceCriteria": "Given a logged-in user, When they load the bookmarks dashboard, Then their bookmarks are displayed sorted newest-first.\nGiven the user types a search query or clicks a tag, When the search is processed, Then the list displays only the matching bookmarks.",
+      "reason": "literal brief requirement: a web UI to view, add, edit, and delete bookmarks from a list, sorted newest-first, with basic search/filter by title or tag."
+    },
+    {
+      "title": "User Registration and Login Backend Endpoints",
+      "roleTag": "BARCAN-TAG-02",
+      "jtbd": "When I am a new or returning user, I want to register an account and log in via REST endpoints, so that I can establish a secure, authenticated session.",
+      "acceptanceCriteria": "Given valid registration details (username, email, password), When a registration request is sent, Then a new user is created in the database.\nGiven valid login credentials, When a login request is sent, Then the server issues an authentication token or establishes an authenticated session.",
+      "reason": "literal brief requirement: Authenticated users can register/login."
+    },
+    {
+      "title": "User Registration and Login Web UI Forms",
+      "roleTag": "BARCAN-TAG-11",
+      "jtbd": "When I visit the website as an unauthenticated guest, I want to see registration and login forms, so that I can create or access my personal account.",
+      "acceptanceCriteria": "Given an anonymous visitor, When they visit the application, Then they are presented with forms to register a new account or log in.\nGiven they submit valid credentials, When form submission is successful, Then they are redirected to their bookmarks list.",
+      "reason": "literal brief requirement: Authenticated users can register/login (UI component)."
+    },
+    {
+      "title": "Strict User Isolation for Bookmark CRUD Operations",
+      "roleTag": "BARCAN-TAG-02",
+      "jtbd": "When I am managing my bookmarks, I want the system to restrict access to only my own data, so that other users cannot view or modify my bookmarks.",
+      "acceptanceCriteria": "Given User A owns a bookmark with ID 10, When User B attempts to view, update, or delete bookmark ID 10, Then the server rejects the request with a 403 Forbidden or 404 Not Found error.",
+      "reason": "domain-standard expectation: As a personal bookmarks manager for authenticated users, secure user isolation (preventing Insecure Direct Object References/IDOR) is a fundamental standard to ensure data privacy."
+    },
+    {
+      "title": "Bookmark URL Validation",
+      "roleTag": "BARCAN-TAG-02",
+      "jtbd": "When I add or update a bookmark, I want the system to validate that the URL is a well-formed absolute URL, so that I don't save broken links or malicious script injections.",
+      "acceptanceCriteria": "Given a bookmark creation or update payload, When the URL is empty or lacks a valid scheme (e.g., http/https), Then the server rejects the request with a 400 Bad Request error.\nGiven a valid absolute URL, When submitted, Then the bookmark is accepted and saved successfully.",
+      "reason": "domain-standard expectation: A bookmark manager requires URL validation to prevent saving corrupted links and block standard security vulnerabilities like XSS via javascript: URIs."
+    }
+  ]
+}
