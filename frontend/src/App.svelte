@@ -159,7 +159,6 @@
     try {
       await apiFetch('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify({ username: authUsername, password: authPassword })
         body: JSON.stringify({ username: authUsername, email: authEmail, password: authPassword })
       });
       // Automatically switch to login upon successful registration
@@ -170,8 +169,6 @@
       const registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (registeredUsers.some((u: any) => u.username === authUsername)) {
         authError = 'Username already exists.';
-      } else {
-        registeredUsers.push({ username: authUsername, password: authPassword });
       } else if (registeredUsers.some((u: any) => u.email === authEmail)) {
         authError = 'Email already exists.';
       } else {
