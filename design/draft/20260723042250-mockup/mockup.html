@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Security First - Sign In</title>
+<!-- Google Fonts: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-surface": "#0b1c30",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-container": "#d4d9ff",
+                    "secondary-fixed": "#e5e2e1",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#0035c5",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "primary-fixed": "#dde1ff",
+                    "tertiary-fixed": "#ffdad2",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#474646",
+                    "inverse-primary": "#b9c3ff",
+                    "on-surface-variant": "#434657",
+                    "outline": "#747688",
+                    "on-tertiary-fixed": "#3d0700",
+                    "surface-variant": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "on-secondary-container": "#656464",
+                    "tertiary": "#8d1c00",
+                    "background": "#f8f9ff",
+                    "secondary-container": "#e5e2e1",
+                    "error": "#ba1a1a",
+                    "secondary": "#5f5e5e",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e5eeff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed-variant": "#8a1c00",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#001257",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c4c5da",
+                    "on-tertiary-container": "#ffd1c6",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "primary-fixed-dim": "#b9c3ff",
+                    "inverse-surface": "#213145",
+                    "surface-tint": "#0046fa",
+                    "on-primary-fixed-variant": "#0033c0",
+                    "primary-container": "#0047ff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#b82800"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "input-height": "56px",
+                    "touch-target": "48px",
+                    "page-margin": "24px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Manrope"],
+                    "body-sm": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "label-caps": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "headline-xl-mobile": ["Manrope"],
+                    "button-text": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "button-text": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .premium-input {
+            transition: all 0.3s ease-out;
+        }
+        .premium-input:focus-within {
+            background-color: #ffffff;
+            border-color: #0035c5;
+            box-shadow: 0px 4px 20px rgba(0, 71, 255, 0.08);
+        }
+        .stagger-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface-bright flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full bg-surface-bright dark:bg-surface-bright flex items-center px-page-margin h-touch-target w-full z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="shield">shield</span>
+<h1 class="font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">Security First</h1>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-page-margin pt-20 pb-24">
+<!-- Welcome Section -->
+<section class="w-full max-w-md text-center mb-stack-lg stagger-in" style="animation-delay: 0.1s;">
+<div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-stack-md">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="lock_open" style="font-variation-settings: 'FILL' 1;">lock_open</span>
+</div>
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface mb-stack-sm">Welcome back</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Secure your access with the world's most trusted authentication platform.</p>
+</section>
+<!-- Form Section -->
+<form class="w-full max-w-md space-y-stack-md stagger-in" onsubmit="return false;" style="animation-delay: 0.2s;">
+<!-- Email Input -->
+<div class="space-y-stack-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant block px-1">EMAIL ADDRESS</label>
+<div class="premium-input flex items-center h-input-height bg-surface-container-low border border-outline-variant rounded-xl px-4">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="mail">mail</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-body-lg placeholder:text-outline/50" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-stack-sm">
+<div class="flex justify-between items-end px-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">PASSWORD</label>
+<a class="font-label-caps text-label-caps text-primary hover:opacity-80 transition-opacity" href="#">FORGOT PASSWORD?</a>
+</div>
+<div class="premium-input flex items-center h-input-height bg-surface-container-low border border-outline-variant rounded-xl px-4">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="key">key</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-body-lg placeholder:text-outline/50" placeholder="••••••••" type="password"/>
+<button class="text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Sign In Button -->
+<button class="w-full h-input-height bg-primary text-on-primary font-button-text text-button-text rounded-xl active:scale-95 transition-transform duration-300 ease-out shadow-lg shadow-primary/10 mt-stack-md">
+                Sign In
+            </button>
+<!-- Biometric Shortcut -->
+<div class="pt-stack-md text-center">
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-variant transition-colors stagger-in" style="animation-delay: 0.3s;">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<span class="font-body-sm text-body-sm">Sign in with Biometrics</span>
+</button>
+</div>
+</form>
+<!-- Dynamic Background Element -->
+<div class="fixed inset-0 -z-10 pointer-events-none opacity-40">
+
+</div>
+</main>
+<!-- BottomNavBar (Suppressed for focused journey as per rule, but following JSON if necessary) -->
+<!-- Applying "Register" as the active intent for the CTA at the bottom -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-page-margin py-2 bg-surface-container-low border-t border-outline-variant">
+<div class="w-full max-w-md flex justify-center items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Don't have an account?</span>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-300 ease-out hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+<span class="font-label-caps text-label-caps">Register</span>
+</div>
+</button>
+</div>
+</footer>
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('.premium-input input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Biometric Button Pulse Logic
+        const bioBtn = document.querySelector('[data-icon="fingerprint"]').parentElement;
+        let pulsing = true;
+        setInterval(() => {
+            if(pulsing) {
+                bioBtn.classList.add('ring-2', 'ring-primary/20');
+                setTimeout(() => bioBtn.classList.remove('ring-2', 'ring-primary/20'), 1000);
+            }
+        }, 2000);
+    </script>
+</body></html>
