@@ -1,14 +1,14 @@
 package com.bookmarks;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
 public class BookmarkDatabaseTest {
 
     @Autowired
@@ -35,7 +35,7 @@ public class BookmarkDatabaseTest {
     @Transactional
     public void testPersistAndRetrieveBookmarkWithTags() {
         // 1. Given: a valid user and tags
-        User user = new User("john_doe", "hashed_password_123");
+        User user = new User("john_doe", "john@example.com", "$2a$10$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         user = userRepository.save(user);
 
         Tag tagTech = new Tag("tech");
@@ -69,7 +69,7 @@ public class BookmarkDatabaseTest {
     @Transactional
     public void testFetchBookmarksSortedNewestFirst() {
         // 1. Given: a user and three bookmarks saved with different created_at timestamps
-        User user = new User("jane_doe", "password_abc");
+        User user = new User("jane_doe", "jane@example.com", "$2a$10$YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
         user = userRepository.save(user);
 
         Instant now = Instant.now();
@@ -101,7 +101,7 @@ public class BookmarkDatabaseTest {
     @Transactional
     public void testSearchByTitleAndFilterByTag() {
         // 1. Given: a user and categorized bookmarks
-        User user = new User("alice", "pass");
+        User user = new User("alice", "alice@example.com", "$2a$10$ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
         user = userRepository.save(user);
 
         Tag tech = tagRepository.save(new Tag("Technology"));
@@ -136,23 +136,31 @@ public class BookmarkDatabaseTest {
                 .containsExactlyInAnyOrder("TechCrunch News", "MDN Web Docs");
     }
 
+
     @Test
-    public void testDownMigrationScriptExecutesSuccessfully() throws IOException {
+    public void testDatabaseMigrationDownScripts() throws Exception {
+        // Read and run rollback for V3
+        String downSqlPath3 = "db/migration/U3__add_user_constraints.sql";
+        String downSql3 = new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(downSqlPath3).getInputStream()));
+        for (String sql : downSql3.split(";")) {
+            if (!sql.trim().isEmpty()) {
+                jdbcTemplate.execute(sql.trim());
+            }
+        }
+
         // Read and run rollback for V2
-        String downSqlPath2 = "src/main/resources/db/migration/U2__add_user_email_and_updated_at.sql";
-        String downSql2 = Files.readString(Paths.get(downSqlPath2));
-        String[] sqlStatements2 = downSql2.split(";");
-        for (String sql : sqlStatements2) {
+        String downSqlPath2 = "db/migration/U2__add_user_email_and_updated_at.sql";
+        String downSql2 = new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(downSqlPath2).getInputStream()));
+        for (String sql : downSql2.split(";")) {
             if (!sql.trim().isEmpty()) {
                 jdbcTemplate.execute(sql.trim());
             }
         }
 
         // Read and run rollback for V1
-        String downSqlPath1 = "src/main/resources/db/migration/U1__init_bookmarks_schema.sql";
-        String downSql1 = Files.readString(Paths.get(downSqlPath1));
-        String[] sqlStatements1 = downSql1.split(";");
-        for (String sql : sqlStatements1) {
+        String downSqlPath1 = "db/migration/U1__init_bookmarks_schema.sql";
+        String downSql1 = new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(downSqlPath1).getInputStream()));
+        for (String sql : downSql1.split(";")) {
             if (!sql.trim().isEmpty()) {
                 jdbcTemplate.execute(sql.trim());
             }
@@ -165,23 +173,20 @@ public class BookmarkDatabaseTest {
         );
         assertThat(tables).doesNotContain("BOOKMARKS", "USERS", "TAGS", "BOOKMARK_TAGS");
 
-        // Re-execute up migration V1 and V2 to leave database in correct state
-        String upSqlPath1 = "src/main/resources/db/migration/V1__init_bookmarks_schema.sql";
-        String upSql1 = Files.readString(Paths.get(upSqlPath1));
-        String[] upStatements1 = upSql1.split(";");
-        for (String sql : upStatements1) {
-            if (!sql.trim().isEmpty()) {
-                jdbcTemplate.execute(sql.trim());
-            }
+        // Re-execute up migrations V1, V2, V3 to leave database in correct state
+        String upSqlPath1 = "db/migration/V1__init_bookmarks_schema.sql";
+        for (String sql : new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(upSqlPath1).getInputStream())).split(";")) {
+            if (!sql.trim().isEmpty()) jdbcTemplate.execute(sql.trim());
         }
 
-        String upSqlPath2 = "src/main/resources/db/migration/V2__add_user_email_and_updated_at.sql";
-        String upSql2 = Files.readString(Paths.get(upSqlPath2));
-        String[] upStatements2 = upSql2.split(";");
-        for (String sql : upStatements2) {
-            if (!sql.trim().isEmpty()) {
-                jdbcTemplate.execute(sql.trim());
-            }
+        String upSqlPath2 = "db/migration/V2__add_user_email_and_updated_at.sql";
+        for (String sql : new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(upSqlPath2).getInputStream())).split(";")) {
+            if (!sql.trim().isEmpty()) jdbcTemplate.execute(sql.trim());
+        }
+
+        String upSqlPath3 = "db/migration/V3__add_user_constraints.sql";
+        for (String sql : new String(org.springframework.util.FileCopyUtils.copyToByteArray(new org.springframework.core.io.ClassPathResource(upSqlPath3).getInputStream())).split(";")) {
+            if (!sql.trim().isEmpty()) jdbcTemplate.execute(sql.trim());
         }
     }
 }
