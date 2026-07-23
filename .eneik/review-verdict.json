@@ -5,30 +5,9 @@
       "verdict": "approve",
       "criticalReason": "",
       "concerns": [
-        "The 'UserRepositoryTest' uses '@SpringBootTest' which boots the complete Spring application context; utilizing '@DataJpaTest' would focus testing specifically on the persistence layer and improve test execution performance.",
-        "The entity 'User' tracks 'createdAt' and 'updatedAt' using system-dependent 'LocalDateTime.now()' via JPA lifecycle callbacks; using timezone-aware types like 'Instant' or 'OffsetDateTime' (UTC) is safer for consistent database timestamp auditing across different servers."
-      ]
-    },
-    {
-      "sourceIndex": 1,
-      "verdict": "approve",
-      "criticalReason": "",
-      "concerns": [
-        "The query parameter 'tags' in 'GET /api/bookmarks' is typed as an 'array' but documented as a 'comma-separated list'. Explicitly setting the serialization style (e.g., 'style: form' and 'explode: false') would prevent ambiguity in backend/frontend parameter parsing.",
-        "The API contract is duplicated in both 'docs/openapi.json' and 'docs/openapi.yaml' without an automated tool or synchronization hook, introducing a high risk of manual drift where one version is updated but the other is missed.",
-        "The validation script 'scripts/validate_contract.py' only parses and asserts structural constraints on the JSON spec ('docs/openapi.json'), leaving 'docs/openapi.yaml' completely unvalidated."
+        "Be aware of the database write overhead when inserting or updating tags and bookmarks due to the newly added generated columns and their indices.",
+        "Ensure the application query logic is updated where necessary to utilize the new case-insensitive indexes optimally."
       ]
     }
   ]
 }
-{"verdicts": [
-  {
-    "sourceIndex": 0,
-    "verdict": "approve",
-    "criticalReason": "",
-    "concerns": [
-      "JWT expiration is hardcoded (86400000L) directly in the AuthController instead of being externalized to application properties.",
-      "The AuthController directly handles password encoding and JWT signing logic rather than delegating these concerns to service components."
-    ]
-  }
-]}
