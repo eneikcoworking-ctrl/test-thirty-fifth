@@ -1,4 +1,16 @@
-{"verdicts": [
-  {"sourceIndex": 0, "verdict": "approve", "criticalReason": "", "concerns": ["Adding NOT NULL column 'email' without a default value in V2 migration may cause issues if existing records exist."]},
-  {"sourceIndex": 1, "verdict": "block", "criticalReason": "Hardcoded credentials ('password123' for 'developer' user) found in frontend/src/App.svelte.", "concerns": []}
-]}
+{
+  "verdicts": [
+    {
+      "sourceIndex": 0,
+      "verdict": "block",
+      "criticalReason": "PR contains committed generated orchestrator artifacts (.eneik/records/*.json) and a critical security vulnerability where any non-empty username/password bypasses authentication via a developer fallback.",
+      "concerns": []
+    },
+    {
+      "sourceIndex": 1,
+      "verdict": "approve",
+      "criticalReason": "",
+      "concerns": []
+    }
+  ]
+}
