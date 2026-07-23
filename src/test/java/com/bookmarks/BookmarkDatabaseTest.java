@@ -138,6 +138,16 @@ public class BookmarkDatabaseTest {
 
     @Test
     public void testDownMigrationScriptExecutesSuccessfully() throws IOException {
+        // Read and run rollback for V3
+        String downSqlPath3 = "src/main/resources/db/migration/U3__add_case_insensitive_indices.sql";
+        String downSql3 = Files.readString(Paths.get(downSqlPath3));
+        String[] sqlStatements3 = downSql3.split(";");
+        for (String sql : sqlStatements3) {
+            if (!sql.trim().isEmpty()) {
+                jdbcTemplate.execute(sql.trim());
+            }
+        }
+
         // Read and run rollback for V2
         String downSqlPath2 = "src/main/resources/db/migration/U2__add_user_email_and_updated_at.sql";
         String downSql2 = Files.readString(Paths.get(downSqlPath2));
@@ -165,7 +175,7 @@ public class BookmarkDatabaseTest {
         );
         assertThat(tables).doesNotContain("BOOKMARKS", "USERS", "TAGS", "BOOKMARK_TAGS");
 
-        // Re-execute up migration V1 and V2 to leave database in correct state
+        // Re-execute up migration V1, V2 and V3 to leave database in correct state
         String upSqlPath1 = "src/main/resources/db/migration/V1__init_bookmarks_schema.sql";
         String upSql1 = Files.readString(Paths.get(upSqlPath1));
         String[] upStatements1 = upSql1.split(";");
@@ -179,6 +189,15 @@ public class BookmarkDatabaseTest {
         String upSql2 = Files.readString(Paths.get(upSqlPath2));
         String[] upStatements2 = upSql2.split(";");
         for (String sql : upStatements2) {
+            if (!sql.trim().isEmpty()) {
+                jdbcTemplate.execute(sql.trim());
+            }
+        }
+
+        String upSqlPath3 = "src/main/resources/db/migration/V3__add_case_insensitive_indices.sql";
+        String upSql3 = Files.readString(Paths.get(upSqlPath3));
+        String[] upStatements3 = upSql3.split(";");
+        for (String sql : upStatements3) {
             if (!sql.trim().isEmpty()) {
                 jdbcTemplate.execute(sql.trim());
             }
