@@ -1,18 +1,11 @@
-{
-  "verdicts": [
-    {
-      "sourceIndex": 0,
-      "verdict": "approve",
-      "criticalReason": "",
-      "concerns": [
-        "The client-side fallback authentication stores plain user credentials in 'localStorage' under the 'registered_users' key, which poses a potential client-side security risk where passwords might be exposed in cleartext."
-      ]
-    },
-    {
-      "sourceIndex": 1,
-      "verdict": "block",
-      "criticalReason": "PR #1 commits generated local orchestrator review artifacts and reports under the '.eneik/' directory.",
-      "concerns": []
-    }
-  ]
-}
+{"verdicts": [
+  {
+    "sourceIndex": 0,
+    "verdict": "approve",
+    "criticalReason": "",
+    "concerns": [
+      "JWT expiration is hardcoded (86400000L) directly in the AuthController instead of being externalized to application properties.",
+      "The AuthController directly handles password encoding and JWT signing logic rather than delegating these concerns to service components."
+    ]
+  }
+]}
