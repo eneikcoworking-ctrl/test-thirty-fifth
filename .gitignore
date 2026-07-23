@@ -1,15 +1,33 @@
 # Eneik orchestrator internal record files - never part of product code
 .eneik/
 
-# Maven target directory
+# Maven
 target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/.maven-wrapper.properties
 
-# IDE files
+# IDEs and Editors
 .idea/
 *.iml
+*.ipr
+*.iws
+.settings/
 .classpath
 .project
-.settings/
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
 
 # OS files
 .DS_Store
