@@ -18,20 +18,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegistrationRequest'
+              $ref: '#/components/schemas/RegisterRequest'
       responses:
         '201':
-          description: User registered successfully
+          description: User registered successfully and authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/AuthResponse'
         '400':
-          description: Invalid inputs or username already exists
+          description: Invalid request data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AuthErrorResponse'
+        '409':
+          description: Conflict (e.g., username or email already exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorResponse'
 
   /api/auth/login:
     post:
@@ -44,20 +50,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLoginRequest'
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Successfully authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponse'
+                $ref: '#/components/schemas/AuthResponse'
         '401':
           description: Invalid username or password
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AuthErrorResponse'
 
   /api/bookmarks:
     get:
@@ -73,6 +79,8 @@ paths:
           in: query
           description: Filter bookmarks by tag names (comma-separated list, e.g. "tech,java")
           required: false
+          style: form
+          explode: false
           schema:
             type: array
             items:
@@ -281,24 +289,30 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    UserRegistrationRequest:
+    RegisterRequest:
       type: object
       required:
         - username
+        - email
         - password
       properties:
         username:
           type: string
           minLength: 3
-          maxLength: 50
+          maxLength: 255
           example: john_doe
+        email:
+          type: string
+          format: email
+          maxLength: 100
+          example: john@example.com
         password:
           type: string
-          minLength: 6
-          maxLength: 100
+          minLength: 8
+          maxLength: 255
           example: secure_pass123
 
-    UserLoginRequest:
+    LoginRequest:
       type: object
       required:
         - username
@@ -311,27 +325,46 @@ components:
           type: string
           example: secure_pass123
 
-    TokenResponse:
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - email
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 42
+        username:
+          type: string
+          example: john_doe
+        email:
+          type: string
+          format: email
+          example: john@example.com
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-07-22T23:30:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-07-22T23:30:00Z"
+
+    AuthResponse:
       type: object
       required:
         - token
-        - type
+        - user
       properties:
         token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        type:
-          type: string
-          example: Bearer
-
-    MessageResponse:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          example: Operation completed successfully
+        user:
+          $ref: '#/components/schemas/User'
 
     BookmarkRequest:
       type: object
@@ -413,6 +446,20 @@ components:
           type: string
           format: date-time
           example: "2026-07-22T23:30:00Z"
+
+    AuthErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Validation failed
+        details:
+          type: array
+          items:
+            type: string
+          example: ["Username must be between 3 and 255 characters"]
 
     ErrorResponse:
       type: object
