@@ -1,12 +1,23 @@
-{"verdicts": [
-  {
-    "sourceIndex": 0,
-    "verdict": "approve",
-    "criticalReason": "",
-    "concerns": [
-      "The 'Bookmark' model uses Instant.now() for createdAt initialization in the application layer, but the database schema defines created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL. While not a blocker, initializing it on both sides could cause slight discrepancies or redundant writes.",
-      "In BookmarkDatabaseTest.java, splitting SQL by semicolon for manual down/up migration execution testing might fail if complex SQL statements containing embedded semicolons are introduced in future migrations. Using Flyway's programmatic API for clean migration testing is a more robust alternative.",
-      "The Tag entity has a unique constraint on 'name', but CascadeType.PERSIST/MERGE is used on the Bookmarks relation. Care must be taken to prevent duplicate tag insertions causing unique constraint violations in concurrent/transactional flows."
-    ]
-  }
-]}
+{
+  "verdicts": [
+    {
+      "sourceIndex": 0,
+      "verdict": "approve",
+      "criticalReason": "",
+      "concerns": [
+        "The 'UserRepositoryTest' uses '@SpringBootTest' which boots the complete Spring application context; utilizing '@DataJpaTest' would focus testing specifically on the persistence layer and improve test execution performance.",
+        "The entity 'User' tracks 'createdAt' and 'updatedAt' using system-dependent 'LocalDateTime.now()' via JPA lifecycle callbacks; using timezone-aware types like 'Instant' or 'OffsetDateTime' (UTC) is safer for consistent database timestamp auditing across different servers."
+      ]
+    },
+    {
+      "sourceIndex": 1,
+      "verdict": "approve",
+      "criticalReason": "",
+      "concerns": [
+        "The query parameter 'tags' in 'GET /api/bookmarks' is typed as an 'array' but documented as a 'comma-separated list'. Explicitly setting the serialization style (e.g., 'style: form' and 'explode: false') would prevent ambiguity in backend/frontend parameter parsing.",
+        "The API contract is duplicated in both 'docs/openapi.json' and 'docs/openapi.yaml' without an automated tool or synchronization hook, introducing a high risk of manual drift where one version is updated but the other is missed.",
+        "The validation script 'scripts/validate_contract.py' only parses and asserts structural constraints on the JSON spec ('docs/openapi.json'), leaving 'docs/openapi.yaml' completely unvalidated."
+      ]
+    }
+  ]
+}
