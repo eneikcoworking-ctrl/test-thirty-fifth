@@ -196,8 +196,8 @@
       const registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       const matched = registeredUsers.find((u: any) => u.username === authUsername && u.password === authPassword);
 
-      // Standalone developer/offline login bypass allows any registered user or fallback credentials
-      if (matched || (authUsername && authPassword)) {
+      // Standalone fallback login: strictly require a registered user match (no bypass)
+      if (matched) {
         token = 'mock-jwt-token-fallback';
         username = authUsername;
         localStorage.setItem('bookmark_token', token);
